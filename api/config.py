@@ -17,6 +17,9 @@ from dotenv import find_dotenv, load_dotenv
 load_dotenv(find_dotenv())
 
 
+# Resolve paths relative to this file (works in Vercel serverless)
+_CONFIG_DIR = os.path.dirname(os.path.abspath(__file__))
+
 # Type aliases
 RGBColor = Tuple[int, int, int]
 ColorPalette = list[RGBColor]
@@ -145,7 +148,7 @@ class SVGConfig:
 class TemplateConfig:
     """Template configuration."""
 
-    config_path: str = "api/templates.json"
+    config_path: str = field(default_factory=lambda: os.path.join(_CONFIG_DIR, "templates.json"))
     fallback_theme: str = "base.html.j2"
     default_theme: str = "dark"
 
